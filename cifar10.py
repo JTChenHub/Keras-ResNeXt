@@ -72,13 +72,19 @@ model_checkpoint = ModelCheckpoint(weights_file, monitor="val_acc", save_best_on
                                    save_weights_only=True, mode='auto')
 
 callbacks = [lr_reducer, model_checkpoint]
-
+'''
 model.fit_generator(generator.flow(trainX, Y_train, batch_size=batch_size),
                     steps_per_epoch=len(trainX) // batch_size,
                     epochs=nb_epoch,
                     callbacks=callbacks,
                     validation_data=(testX, Y_test),
                     validation_steps=testX.shape[0] // batch_size, verbose=1)
+'''
+model.fit(trainX, Y_train, batch_size=batch_size,
+                    epochs=nb_epoch,
+                    callbacks=callbacks,
+                    validation_data=(testX, Y_test),
+                    verbose=1)
 
 yPreds = model.predict(testX)
 yPred = np.argmax(yPreds, axis=1)
